@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "UPI Splitter",
+    "slug": "upi-splitter",
+    "scheme": "upisplitter",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.upisplitter.app",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["upi"],
+        "NSContactsUsageDescription": "UPI Splitter needs access to your contacts so you can quickly pick who to pay by name."
+      }
+    },
+    "android": {
+      "package": "com.upisplitter.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["android.permission.READ_CONTACTS", "android.permission.CAMERA"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-camera",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "UPI Splitter needs access to your contacts so you can quickly pick who to pay by name."
+        }
+      ]
+    ]
+  }
+}
