@@ -10,6 +10,9 @@ export const QR_ERRORS = {
   notUpiQr: "This QR code doesn't appear to be for UPI. Try entering manually.",
   cameraPermissionNeeded: 'Camera permission needed to scan QR codes',
   scanTimeoutPrompt: "Can't scan? Enter manually instead",
+  galleryPermissionNeeded: 'Photo library access needed to choose a QR image',
+  noQrInImage: "We couldn't find a QR code in this image. Try another photo or scan with the camera.",
+  imageLoadFailed: "Couldn't read that image. Try picking another one.",
 } as const;
 
 export const RECIPIENT_INPUT_ERRORS = {

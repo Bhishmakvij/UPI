@@ -12,7 +12,8 @@
       "bundleIdentifier": "com.upisplitter.app",
       "infoPlist": {
         "LSApplicationQueriesSchemes": ["upi"],
-        "NSContactsUsageDescription": "UPI Splitter needs access to your contacts so you can quickly pick who to pay by name."
+        "NSContactsUsageDescription": "UPI Splitter needs access to your contacts so you can quickly pick who to pay by name.",
+        "NSPhotoLibraryUsageDescription": "UPI Splitter needs access to your photos so you can pick a QR code image to pay."
       }
     },
     "android": {
@@ -35,6 +36,14 @@
         "expo-contacts",
         {
           "contactsPermission": "UPI Splitter needs access to your contacts so you can quickly pick who to pay by name."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "UPI Splitter needs access to your photos so you can pick a QR code image to pay.",
+          "cameraPermission": "UPI Splitter needs camera access to photograph a QR code.",
+          "microphonePermission": false
         }
       ]
     ]
