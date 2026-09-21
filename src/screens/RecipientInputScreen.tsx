@@ -29,7 +29,8 @@ const NAME_SEARCH_DEBOUNCE_MS = 150;
  * on-device contact search. This replaces what would otherwise be three
  * separate screens — see the project plan for the full rationale.
  */
-export function RecipientInputScreen({ navigation }: Props) {
+export function RecipientInputScreen({ navigation, route }: Props) {
+  const prefilledAmount = route.params?.prefilledAmount;
   const { recentContactsRepo, contactLinksRepo } = useRepos();
   const recentService = useMemo(() => new RecentRecipientsService(recentContactsRepo), [recentContactsRepo]);
   const contactLinks = useMemo(() => new ContactUpiLinks(contactLinksRepo), [contactLinksRepo]);
@@ -136,9 +137,11 @@ export function RecipientInputScreen({ navigation }: Props) {
       if (recipient.contactId) {
         await contactLinks.learn(recipient.contactId, recipient.upiId);
       }
-      navigation.navigate('AmountEntry', { recipient });
+      navigation.navigate('AmountEntry', {
+        recipient: { ...recipient, prefilledAmount: recipient.prefilledAmount ?? prefilledAmount },
+      });
     },
-    [navigation, recentService, contactLinks]
+    [navigation, recentService, contactLinks, prefilledAmount]
   );
 
   const selectContact = useCallback(

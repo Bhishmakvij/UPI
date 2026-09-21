@@ -33,7 +33,9 @@ export type MainTabParamList = {
 
 export type RootStackParamList = {
   Main: undefined;
-  RecipientInput: undefined;
+  /** `prefilledAmount` carries the Home screen's "Quick Send" amount through
+   * recipient resolution so it lands pre-filled on AmountEntry. */
+  RecipientInput: { prefilledAmount?: number } | undefined;
   AmountEntry: { recipient: ResolvedRecipientParams };
   ConfirmSplits: { recipient: ResolvedRecipientParams; amount: number };
   PaymentProgress: { recipient: ResolvedRecipientParams; amount: number };
