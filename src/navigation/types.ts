@@ -1,3 +1,6 @@
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RecipientMethod } from '../lib/db/types';
 
 /** A fully-resolved payee, in the one shape every downstream screen consumes
@@ -20,14 +23,28 @@ export interface ResolvedRecipientParams {
   currency?: string;
 }
 
-export type RootStackParamList = {
-  Home: undefined;
+/** The four bottom-tab destinations, nested inside the root stack's `Main` screen. */
+export type MainTabParamList = {
+  Pay: undefined;
   Scan: undefined;
+  History: undefined;
+  Profile: undefined;
+};
+
+export type RootStackParamList = {
+  Main: undefined;
   RecipientInput: undefined;
   AmountEntry: { recipient: ResolvedRecipientParams };
   ConfirmSplits: { recipient: ResolvedRecipientParams; amount: number };
   PaymentProgress: { recipient: ResolvedRecipientParams; amount: number };
   Result: { transactionId: string };
-  HistoryList: undefined;
   HistoryDetail: { transactionId: string };
 };
+
+/** Screen props for a tab nested under `Main`, composed so `navigation.navigate`
+ * accepts both sibling tab names and root-stack screen names (e.g. the Pay
+ * tab pushing `RecipientInput`, which lives one level up in the root stack). */
+export type TabScreenProps<T extends keyof MainTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, T>,
+  NativeStackScreenProps<RootStackParamList>
+>;

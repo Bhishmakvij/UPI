@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../navigation/types';
+import type { TabScreenProps } from '../navigation/types';
 import { useRepos } from '../navigation/RepoProvider';
 import { HistoryFilterBar } from '../components/HistoryFilterBar';
 import { EmptyState } from '../components/EmptyState';
 import { formatRupees } from '../lib/format';
 import type { TransactionRow, TransactionStatus } from '../lib/db/types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'HistoryList'>;
+type Props = TabScreenProps<'History'>;
 
 /** Full transaction history with search and status filtering, per the project plan's Part 7/9. */
 export function HistoryListScreen({ navigation }: Props) {

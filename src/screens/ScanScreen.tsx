@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList, ResolvedRecipientParams } from '../navigation/types';
+import type { TabScreenProps } from '../navigation/types';
 import { parseUpiUri } from '../lib/upi/parseUpiUri';
 import { createExpoQrImageSource } from '../lib/qr/qrImageSource';
 import { resolveUpiFromDecodedStrings } from '../lib/qr/resolveUpiFromDecodedStrings';
@@ -11,7 +10,7 @@ import { QR_ERRORS } from '../lib/errorMessages';
 import { ErrorBanner } from '../components/ErrorBanner';
 import { PermissionGate } from '../components/PermissionGate';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Scan'>;
+type Props = TabScreenProps<'Scan'>;
 
 /** After this many seconds without a successful scan, nudge the user toward manual entry. */
 const SCAN_TIMEOUT_MS = 30_000;

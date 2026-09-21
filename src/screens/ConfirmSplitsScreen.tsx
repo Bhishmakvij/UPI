@@ -39,7 +39,7 @@ export function ConfirmSplitsScreen({ route, navigation }: Props) {
       )}
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.popToTop()}>
           <Text style={styles.cancelButtonText}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity

@@ -1,9 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../navigation/types';
+import type { TabScreenProps } from '../navigation/types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = TabScreenProps<'Pay'>;
 
 /** Entry point: Scan QR Code / Enter Recipient (the unified name-phone-UPI
  * input) / Transaction History. */
@@ -18,7 +17,7 @@ export function HomeScreen({ navigation }: Props) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('RecipientInput')}>
           <Text style={styles.buttonText}>📝 Enter Recipient</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HistoryList')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('History')}>
           <Text style={styles.buttonText}>📊 Transaction History</Text>
         </TouchableOpacity>
       </View>
