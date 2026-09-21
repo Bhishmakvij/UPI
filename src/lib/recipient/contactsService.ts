@@ -30,7 +30,9 @@ export function searchContactsByName(query: string, contacts: Contact[]): Contac
 
   const matches: ContactSearchMatch[] = [];
   for (const contact of contacts) {
-    const haystacks = [contact.name, contact.firstName, contact.lastName].filter(
+    // Matches against full name, first/last name, AND nickname — a contact saved
+    // as just "Mom" with no name field, or under a nickname, must still be findable.
+    const haystacks = [contact.name, contact.firstName, contact.lastName, contact.nickname].filter(
       (value): value is string => Boolean(value)
     );
     for (const haystack of haystacks) {
@@ -67,24 +69,47 @@ export function createExpoContactsDataSource(): ContactsDataSource {
     },
     async getAllContacts() {
       const Contacts = await import('expo-contacts');
-      const { data } = await Contacts.getContactsAsync({
-        fields: [
-          Contacts.Fields.Name,
-          Contacts.Fields.FirstName,
-          Contacts.Fields.LastName,
-          Contacts.Fields.PhoneNumbers,
-        ],
-      });
-      return data.map((raw): Contact => ({
-        id: raw.id ?? '',
-        name: raw.name ?? '',
-        firstName: raw.firstName,
-        lastName: raw.lastName,
-        phoneNumbers: (raw.phoneNumbers ?? []).map((phone) => ({
-          number: phone.number ?? '',
-          label: phone.label,
-        })),
-      }));
+      const contacts: Contact[] = [];
+      // Paginate explicitly rather than trusting a single unbounded call: some
+      // Android OEM contact providers cap an unpaginated query well below the
+      // device's real contact count, which silently made name search look
+      // "broken" for any contact past that cap. 500/page comfortably covers a
+      // typical address book in a small, bounded number of round trips.
+      const pageSize = 500;
+      let pageOffset = 0;
+      for (;;) {
+        const { data, hasNextPage } = await Contacts.getContactsAsync({
+          fields: [
+            Contacts.Fields.Name,
+            Contacts.Fields.FirstName,
+            Contacts.Fields.LastName,
+            Contacts.Fields.Nickname,
+            Contacts.Fields.PhoneNumbers,
+          ],
+          pageSize,
+          pageOffset,
+        });
+        for (const raw of data) {
+          // A contact with no composed `name` (common when only given/family
+          // name or just a nickname is set) must not be skipped or reduced to
+          // an unsearchable empty string — fall back through the other fields.
+          const resolvedName = raw.name || [raw.firstName, raw.lastName].filter(Boolean).join(' ') || raw.nickname || '';
+          contacts.push({
+            id: raw.id ?? '',
+            name: resolvedName,
+            firstName: raw.firstName,
+            lastName: raw.lastName,
+            nickname: raw.nickname,
+            phoneNumbers: (raw.phoneNumbers ?? []).map((phone) => ({
+              number: phone.number ?? '',
+              label: phone.label,
+            })),
+          });
+        }
+        if (!hasNextPage || data.length === 0) break;
+        pageOffset += pageSize;
+      }
+      return contacts;
     },
   };
 }

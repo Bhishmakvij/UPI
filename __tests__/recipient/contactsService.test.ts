@@ -6,6 +6,7 @@ const contacts: Contact[] = [
   { id: '2', name: 'Rajesh Singh', firstName: 'Rajesh', lastName: 'Singh', phoneNumbers: [{ number: '9765432109' }] },
   { id: '3', name: 'Priya Singh', firstName: 'Priya', lastName: 'Singh', phoneNumbers: [] },
   { id: '4', name: 'Mom', firstName: 'Mom', phoneNumbers: [{ number: '08765432109' }] },
+  { id: '5', name: 'Amit Verma', firstName: 'Amit', lastName: 'Verma', nickname: 'Bunty', phoneNumbers: [] },
 ];
 
 describe('searchContactsByName', () => {
@@ -18,6 +19,11 @@ describe('searchContactsByName', () => {
     const [match] = searchContactsByName('Kumar', contacts).filter((m) => m.contact.id === '1');
     expect(match.matchStart).toBe(4);
     expect(match.matchEnd).toBe(9);
+  });
+
+  it('matches against a nickname when the query does not appear in any name field', () => {
+    const matches = searchContactsByName('bunty', contacts);
+    expect(matches.map((m) => m.contact.id)).toEqual(['5']);
   });
 
   it('returns no matches for an unmatched query', () => {

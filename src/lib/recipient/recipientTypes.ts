@@ -9,6 +9,7 @@ export interface Contact {
   name: string;
   firstName?: string;
   lastName?: string;
+  nickname?: string;
   phoneNumbers: ContactPhoneNumber[];
 }
 

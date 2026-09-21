@@ -37,27 +37,39 @@ export function RecipientInputScreen({ navigation }: Props) {
   const [text, setText] = useState('');
   const [permissionStatus, setPermissionStatus] = useState<ContactPermissionStatus | 'loading'>('loading');
   const [contacts, setContacts] = useState<Contact[]>([]);
+  // Tracks the *outcome* of fetching contacts, separately from `contacts`
+  // itself — an empty array is ambiguous ("no contacts on device" vs. "the
+  // fetch failed"), and collapsing both into a silent [] previously made a
+  // real fetch failure indistinguishable from "search doesn't work".
+  const [contactsLoadState, setContactsLoadState] = useState<'idle' | 'loading' | 'loaded' | 'error'>('idle');
   const [matches, setMatches] = useState<ContactSearchMatch[]>([]);
   const [preview, setPreview] = useState<ResolvedRecipientParams | null>(null);
   const [recent, setRecent] = useState<RecentRecipient[]>([]);
+
+  const loadContacts = useCallback(async () => {
+    setContactsLoadState('loading');
+    const dataSource = createExpoContactsDataSource();
+    const status = await dataSource.requestPermission();
+    setPermissionStatus(status);
+    if (status !== 'granted') {
+      setContactsLoadState('idle');
+      return;
+    }
+    try {
+      setContacts(await dataSource.getAllContacts());
+      setContactsLoadState('loaded');
+    } catch {
+      setContacts([]);
+      setContactsLoadState('error');
+    }
+  }, []);
 
   // Contact permission is requested contextually, the first time this screen
   // opens — not eagerly at app launch — and denial never blocks the screen:
   // phone/UPI entry keep working with an empty contacts list.
   useEffect(() => {
-    (async () => {
-      const dataSource = createExpoContactsDataSource();
-      const status = await dataSource.requestPermission();
-      setPermissionStatus(status);
-      if (status === 'granted') {
-        try {
-          setContacts(await dataSource.getAllContacts());
-        } catch {
-          setContacts([]);
-        }
-      }
-    })();
-  }, []);
+    loadContacts();
+  }, [loadContacts]);
 
   useEffect(() => {
     recentService.list(10).then(setRecent);
@@ -211,6 +223,14 @@ export function RecipientInputScreen({ navigation }: Props) {
         {permissionStatus === 'denied' ? (
           <Text style={styles.hint}>{CONTACT_ERRORS.permissionDeniedHint}</Text>
         ) : null}
+        {contactsLoadState === 'error' ? (
+          <View style={styles.loadErrorRow}>
+            <Text style={styles.loadErrorText}>{CONTACT_ERRORS.loadFailed}</Text>
+            <TouchableOpacity onPress={loadContacts}>
+              <Text style={styles.retryText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         {matches.length > 0 ? (
           <ContactMatchList matches={matches} onSelect={selectContact} />
@@ -247,6 +267,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   hint: { color: '#888', fontSize: 13, marginTop: 8 },
+  loadErrorRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 },
+  loadErrorText: { color: '#B00020', fontSize: 13, flex: 1, marginRight: 8 },
+  retryText: { color: '#1A73E8', fontSize: 13, fontWeight: '700' },
   previewCard: { marginTop: 16, backgroundColor: '#F0F7F0', borderRadius: 10, padding: 14 },
   previewTitle: { fontSize: 16, fontWeight: '700', marginBottom: 6 },
   previewDetail: { fontSize: 14, color: '#444' },

@@ -42,6 +42,7 @@ export const CONTACT_ERRORS = {
   contactGone: 'Contact no longer available',
   selectWhichNumber: 'Select which number to use',
   noContactsFound: (query: string) => `No contacts named '${query}'. Enter manually?`,
+  loadFailed: "Couldn't load your contacts. You can still enter a phone number or UPI ID.",
 } as const;
 
 export const PAYMENT_ERRORS = {
