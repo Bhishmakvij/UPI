@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   recipientName: { fontSize: 17, fontWeight: '700' },
   recipientUpi: { fontSize: 14, color: '#555', marginTop: 4 },
   input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12, fontSize: 20 },
-  button: { marginTop: 24, backgroundColor: '#1A73E8', paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
+  button: { marginTop: 24, backgroundColor: '#1F3A93', paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
   buttonDisabled: { backgroundColor: '#B7C8EA' },
   buttonText: { color: '#fff', fontWeight: '700', fontSize: 16 },
 });

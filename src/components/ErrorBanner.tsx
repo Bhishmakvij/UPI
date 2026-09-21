@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   text: {
-    color: '#B3261E',
+    color: '#FF3B30',
     fontSize: 14,
   },
 });

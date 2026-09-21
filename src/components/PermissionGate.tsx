@@ -32,8 +32,8 @@ export function PermissionGate({
 const styles = StyleSheet.create({
   container: { padding: 24, alignItems: 'center', gap: 12 },
   message: { fontSize: 15, textAlign: 'center', color: '#444' },
-  button: { backgroundColor: '#1A73E8', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8 },
+  button: { backgroundColor: '#1F3A93', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8 },
   buttonText: { color: '#fff', fontWeight: '600' },
   linkButton: { paddingVertical: 8 },
-  linkText: { color: '#1A73E8', fontWeight: '500' },
+  linkText: { color: '#1F3A93', fontWeight: '500' },
 });

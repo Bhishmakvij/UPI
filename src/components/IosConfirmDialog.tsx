@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 17, fontWeight: '700', marginBottom: 8 },
   button: { paddingVertical: 12, alignItems: 'center', borderRadius: 8, backgroundColor: '#F0F0F0' },
   buttonText: { fontSize: 15, fontWeight: '500' },
-  primary: { backgroundColor: '#1A73E8' },
+  primary: { backgroundColor: '#1F3A93' },
   primaryText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 });

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   container: { marginTop: 16 },
   header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
   title: { fontSize: 13, fontWeight: '700', color: '#888', textTransform: 'uppercase' },
-  clear: { fontSize: 13, color: '#1A73E8' },
+  clear: { fontSize: 13, color: '#1F3A93' },
   row: { paddingVertical: 8 },
   rowText: { fontSize: 15 },
 });

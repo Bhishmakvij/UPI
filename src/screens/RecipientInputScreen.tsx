@@ -272,10 +272,10 @@ const styles = StyleSheet.create({
   hint: { color: '#888', fontSize: 13, marginTop: 8 },
   loadErrorRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 },
   loadErrorText: { color: '#B00020', fontSize: 13, flex: 1, marginRight: 8 },
-  retryText: { color: '#1A73E8', fontSize: 13, fontWeight: '700' },
+  retryText: { color: '#1F3A93', fontSize: 13, fontWeight: '700' },
   previewCard: { marginTop: 16, backgroundColor: '#F0F7F0', borderRadius: 10, padding: 14 },
   previewTitle: { fontSize: 16, fontWeight: '700', marginBottom: 6 },
   previewDetail: { fontSize: 14, color: '#444' },
-  continueButton: { marginTop: 12, backgroundColor: '#1A73E8', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
+  continueButton: { marginTop: 12, backgroundColor: '#1F3A93', paddingVertical: 12, borderRadius: 8, alignItems: 'center' },
   continueButtonText: { color: '#fff', fontWeight: '700' },
 });

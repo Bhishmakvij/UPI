@@ -205,7 +205,7 @@ export function ScanScreen({ navigation }: Props) {
                 onPress={() => handlePickImage('library')}
               >
                 {imageLoading ? (
-                  <ActivityIndicator color="#1A3A8F" />
+                  <ActivityIndicator color="#1F3A93" />
                 ) : (
                   <Text style={styles.imageButtonText}>🖼️ Upload QR Image</Text>
                 )}
@@ -234,8 +234,8 @@ const styles = StyleSheet.create({
   hint: { alignItems: 'center', marginBottom: 8 },
   hintText: { color: '#fff', fontSize: 14 },
   manualButton: { backgroundColor: '#fff', borderRadius: 10, paddingVertical: 14, alignItems: 'center' },
-  manualButtonText: { fontSize: 16, fontWeight: '600', color: '#1A3A8F' },
-  grantButton: { backgroundColor: '#1A73E8', margin: 24, paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
+  manualButtonText: { fontSize: 16, fontWeight: '600', color: '#1F3A93' },
+  grantButton: { backgroundColor: '#1F3A93', margin: 24, paddingVertical: 14, borderRadius: 10, alignItems: 'center' },
   grantButtonText: { color: '#fff', fontWeight: '700' },
   imageButtonsRow: { flexDirection: 'row', gap: 10, marginBottom: 10 },
   imageButton: {
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: 'center',
   },
-  imageButtonText: { fontSize: 14, fontWeight: '600', color: '#1A3A8F' },
+  imageButtonText: { fontSize: 14, fontWeight: '600', color: '#1F3A93' },
   imagePreviewCard: { backgroundColor: '#fff', borderRadius: 16, padding: 16 },
   previewImage: { width: '100%', height: 200, borderRadius: 10, marginBottom: 12, backgroundColor: '#eee' },
   previewTitle: { fontSize: 16, fontWeight: '700', marginBottom: 6, color: '#00C853' },
@@ -254,6 +254,6 @@ const styles = StyleSheet.create({
   previewActions: { flexDirection: 'row', gap: 10, marginTop: 16 },
   secondaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#EEE' },
   secondaryButtonText: { fontWeight: '700', color: '#444' },
-  primaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#1A73E8' },
+  primaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#1F3A93' },
   primaryButtonText: { fontWeight: '700', color: '#fff' },
 });

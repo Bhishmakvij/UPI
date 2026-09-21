@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16 },
   title: { fontSize: 22, fontWeight: '800', marginBottom: 8 },
   summary: { fontSize: 17, fontWeight: '600' },
-  summarySecondary: { fontSize: 14, color: '#B3261E', marginTop: 4 },
+  summarySecondary: { fontSize: 14, color: '#FF3B30', marginTop: 4 },
   listBox: { marginTop: 20, flex: 1 },
   actions: { flexDirection: 'row', gap: 12 },
   secondaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#EEE' },
   secondaryButtonText: { fontWeight: '700', color: '#444' },
-  primaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#1A73E8' },
+  primaryButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#1F3A93' },
   primaryButtonText: { fontWeight: '700', color: '#fff' },
 });

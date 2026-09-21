@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
   splitRow: { paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: '#eee' },
   splitTitle: { fontSize: 15, fontWeight: '700' },
   splitStatus: { fontSize: 13, color: '#555', marginTop: 2 },
-  splitError: { fontSize: 13, color: '#B3261E', marginTop: 2 },
+  splitError: { fontSize: 13, color: '#FF3B30', marginTop: 2 },
   splitMeta: { fontSize: 12, color: '#999', marginTop: 4 },
 });
