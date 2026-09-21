@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Card, Divider } from 'react-native-paper';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
 import { splitAmount } from '../lib/splitting/splitAmount';
 import { formatRupees } from '../lib/format';
+import { colors, radii, spacing, typography, CTA_MIN_HEIGHT } from '../theme/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ConfirmSplits'>;
 
@@ -18,52 +21,85 @@ export function ConfirmSplitsScreen({ route, navigation }: Props) {
   const splits = splitResult.ok ? splitResult.splits : [];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Payment Summary</Text>
-      <Text style={styles.line}>Recipient: {recipient.name ?? recipient.upiId}</Text>
-      <Text style={styles.line}>Total Amount: {formatRupees(amount)}</Text>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.title}>Payment Summary</Text>
 
-      {splits.length > 1 ? (
-        <View style={styles.splitsBox}>
-          <Text style={styles.splitsTitle}>Will be split into:</Text>
-          {splits.map((split) => (
-            <Text key={split.index} style={styles.splitLine}>
-              ✓ Payment {split.index}: {formatRupees(split.amount)}
-            </Text>
-          ))}
-        </View>
-      ) : (
-        <Text style={styles.singleLine}>
-          This is a single payment of {formatRupees(amount)} — no splitting needed.
-        </Text>
-      )}
+        <Card style={styles.card} mode="elevated">
+          <Card.Content>
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>Recipient</Text>
+              <Text style={styles.summaryValue}>{recipient.name ?? recipient.upiId}</Text>
+            </View>
+            <View style={styles.summaryRow}>
+              <Text style={styles.summaryLabel}>Total Amount</Text>
+              <Text style={styles.summaryValueBold}>{formatRupees(amount)}</Text>
+            </View>
+          </Card.Content>
+        </Card>
+
+        {splits.length > 1 ? (
+          <Card style={styles.card} mode="elevated">
+            <Card.Content>
+              <Text style={styles.splitsTitle}>Will be split into {splits.length} payments</Text>
+              {splits.map((split, i) => (
+                <View key={split.index}>
+                  <View style={styles.splitRow}>
+                    <Text style={styles.splitLabel}>Payment {split.index}</Text>
+                    <Text style={styles.splitAmount}>{formatRupees(split.amount)}</Text>
+                  </View>
+                  {i < splits.length - 1 ? <Divider style={styles.divider} /> : null}
+                </View>
+              ))}
+            </Card.Content>
+          </Card>
+        ) : (
+          <Text style={styles.singleLine}>
+            This is a single payment of {formatRupees(amount)} — no splitting needed.
+          </Text>
+        )}
+      </ScrollView>
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.popToTop()}>
-          <Text style={styles.cancelButtonText}>Cancel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        <Button mode="outlined" style={styles.backButton} contentStyle={styles.ctaContent} onPress={() => navigation.popToTop()}>
+          Back
+        </Button>
+        <Button
+          mode="contained"
           style={styles.confirmButton}
+          contentStyle={styles.ctaContent}
           onPress={() => navigation.navigate('PaymentProgress', { recipient, amount })}
         >
-          <Text style={styles.confirmButtonText}>Confirm</Text>
-        </TouchableOpacity>
+          Confirm & Pay
+        </Button>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 22, fontWeight: '800', marginBottom: 16 },
-  line: { fontSize: 16, marginBottom: 6 },
-  splitsBox: { marginTop: 16, backgroundColor: '#F5F5F5', borderRadius: 10, padding: 14 },
-  splitsTitle: { fontWeight: '700', marginBottom: 8 },
-  splitLine: { fontSize: 15, marginVertical: 2 },
-  singleLine: { marginTop: 16, fontSize: 15, color: '#555' },
-  actions: { flexDirection: 'row', marginTop: 32, gap: 12 },
-  cancelButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#EEE' },
-  cancelButtonText: { fontWeight: '700', color: '#444' },
-  confirmButton: { flex: 1, paddingVertical: 14, borderRadius: 10, alignItems: 'center', backgroundColor: '#1A73E8' },
-  confirmButtonText: { fontWeight: '700', color: '#fff' },
+  container: { flex: 1, backgroundColor: colors.background },
+  scrollContent: { padding: spacing.md },
+  title: { ...typography.heading, marginBottom: spacing.md },
+  card: { borderRadius: radii.card, backgroundColor: colors.surface, marginBottom: spacing.md },
+  summaryRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: spacing.xs },
+  summaryLabel: { ...typography.secondary },
+  summaryValue: { fontSize: 16, fontWeight: '700', color: colors.text },
+  summaryValueBold: { fontSize: 18, fontWeight: '800', color: colors.primary },
+  splitsTitle: { fontSize: 15, fontWeight: '700', color: colors.text, marginBottom: spacing.sm },
+  splitRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: spacing.sm },
+  splitLabel: { fontSize: 15, color: colors.text },
+  splitAmount: { fontSize: 15, fontWeight: '700', color: colors.text },
+  divider: { backgroundColor: colors.border },
+  singleLine: { ...typography.secondary, marginTop: spacing.sm },
+  actions: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    padding: spacing.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.border,
+  },
+  backButton: { flex: 1, borderRadius: radii.button, borderColor: colors.primary },
+  confirmButton: { flex: 2, borderRadius: radii.button },
+  ctaContent: { height: CTA_MIN_HEIGHT },
 });
