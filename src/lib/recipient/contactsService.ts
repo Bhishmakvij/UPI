@@ -55,20 +55,26 @@ export function findContactByPhone(digits: string, contacts: Contact[]): Contact
 }
 
 /**
- * Live, device-backed data source using `expo-contacts`. The module is imported
- * lazily (only when a method is actually invoked) so this file has no load-time
- * dependency on the native Contacts binding — importing it to reuse the pure
- * search functions above never touches native code.
+ * Live, device-backed data source using `expo-contacts`. Imports from
+ * `expo-contacts/legacy` rather than the package root: as of SDK 57, the
+ * root export moved to a new class-based API, and the old function-style
+ * API used here (`getContactsAsync`/`Fields`/`requestPermissionsAsync`) is
+ * only kept at the root as a deprecated compatibility shim — importing the
+ * legacy subpath directly avoids that shim (and its runtime warning)
+ * entirely. The module is imported lazily (only when a method is actually
+ * invoked) so this file has no load-time dependency on the native Contacts
+ * binding — importing it to reuse the pure search functions above never
+ * touches native code.
  */
 export function createExpoContactsDataSource(): ContactsDataSource {
   return {
     async requestPermission() {
-      const Contacts = await import('expo-contacts');
+      const Contacts = await import('expo-contacts/legacy');
       const { status } = await Contacts.requestPermissionsAsync();
       return status as ContactPermissionStatus;
     },
     async getAllContacts() {
-      const Contacts = await import('expo-contacts');
+      const Contacts = await import('expo-contacts/legacy');
       const contacts: Contact[] = [];
       // Paginate explicitly rather than trusting a single unbounded call: some
       // Android OEM contact providers cap an unpaginated query well below the
